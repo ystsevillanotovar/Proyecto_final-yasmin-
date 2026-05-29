@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  user
+  admin
+}
+
+model Usuario {
+  id         String   @id
+  email      String   @unique
+  password   String
+  alias      String
+  role       UserRole @default(user)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  juegos Juego[]
+
+  @@index([email])
+  @@index([role])
+  @@index([is_active])
+  @@index([deleted_at])
+}
+
+model Categoria {
+  id         String   @id
+  nombre     String
+  slug       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  juegos Juego[]
+
+  @@index([slug])
+}
+
+model Etiqueta {
+  id         String @id
+  nombre     String @unique
+  slug       String @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  juegos_juegos JuegoEtiqueta[]
+}
+
+model Juego {
+  id                      String      @id
+  nombre                  String
+  categoria_id            String
+  puntuacion_metacritic   Int
+  horas_dedicacion        Float
+  completado              Boolean     @default(false)
+  fecha_completado        DateTime?
+  notas                   String?
+  valoracion              Int?
+  usuario_id              String
+  created_at              DateTime    @default(now())
+  updated_at              DateTime    @updatedAt
+  deleted_at              DateTime?
+
+  usuario  Usuario           @relation(fields: [usuario_id], references: [id])
+  categoria Categoria         @relation(fields: [categoria_id], references: [id])
+  etiquetas JuegoEtiqueta[]
+
+  @@index([categoria_id])
+  @@index([usuario_id])
+  @@index([completado])
+  @@index([deleted_at])
+}
+
+model JuegoEtiqueta {
+  juego_id    String
+  etiqueta_id String
+
+  juego    Juego    @relation(fields: [juego_id], references: [id], onDelete: Cascade)
+  etiqueta Etiqueta @relation(fields: [etiqueta_id], references: [id], onDelete: Cascade)
+
+  @@id([juego_id, etiqueta_id])
+  @@index([juego_id])
+  @@index([etiqueta_id])
+}
