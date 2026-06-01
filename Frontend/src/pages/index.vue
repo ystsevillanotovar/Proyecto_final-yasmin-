@@ -29,7 +29,7 @@
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div class="text-center max-w-4xl mx-auto">
           <div class="animate-fade-up mb-8">
-            <img src="/logo.svg" alt="Stranger Home" class="w-20 h-20 mx-auto mb-6 rounded-2xl shadow-2xl" style="filter:drop-shadow(0 0 20px rgba(231,76,60,0.5))" />
+            <img src="/logo.svg" alt="Stranger Home" class="logo-animated w-20 h-20 mx-auto mb-6 rounded-2xl" />
           </div>
 
           <div class="relative inline-block animate-fade-up" style="animation-delay:0.15s">
@@ -91,16 +91,16 @@
       </div>
     </section>
 
-    <section v-if="showRecommended" class="py-20 bg-dark relative">
+    <section v-if="showRecommended" class="py-20 hero-section-dark relative">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-text-primary mb-3">Recomendados para ti</h2>
-          <p class="text-text-muted">Juegos que deberias jugar a continuacion, ordenados por prioridad</p>
+          <h2 class="text-3xl font-bold text-white mb-3">Recomendados para ti</h2>
+          <p class="text-white/60">Juegos que deberias jugar a continuacion, ordenados por prioridad</p>
         </div>
 
         <div v-if="pending" class="text-center py-12">
           <div class="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
-          <p class="mt-4 text-text-muted text-sm">Cargando recomendaciones...</p>
+          <p class="mt-4 text-white/60 text-sm">Cargando recomendaciones...</p>
         </div>
 
         <div v-else-if="error" class="text-center py-12">
@@ -114,8 +114,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4v-3a2 2 0 00-2-2H5z"></path>
             </svg>
           </div>
-          <p class="text-text-muted text-lg mb-2">Aun no tienes juegos</p>
-          <p class="text-text-dim text-sm mb-8">Agrega tu primer juego para empezar</p>
+            <p class="text-text-muted text-lg mb-2">Aun no tienes juegos</p>
+            <p class="text-white/40 text-sm mb-8">Agrega tu primer juego para empezar</p>
           <NuxtLink to="/juegos/crear" class="btn-primary px-8 py-3 rounded-xl font-medium inline-flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
@@ -143,35 +143,35 @@
       </div>
     </section>
 
-    <section v-if="!sessionStore.isAuthenticated" class="py-20 bg-dark relative">
+    <section v-if="!sessionStore.isAuthenticated" class="py-20 hero-section-dark relative">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="card-surface p-8 hover:-translate-y-1 transition-all duration-300 hover:shadow-lg">
-            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+          <div class="card-surface-dark p-8 hover:-translate-y-1 transition-all duration-300">
+            <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-5">
               <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-text-primary mb-2">Prioriza</h3>
-            <p class="text-text-muted text-sm leading-relaxed">Descubre que jugar a continuacion con nuestro algoritmo basado en Metacritic y horas de dedicacion.</p>
+            <h3 class="text-lg font-semibold text-white mb-2">Prioriza</h3>
+            <p class="text-white/60 text-sm leading-relaxed">Descubre que jugar a continuacion con nuestro algoritmo basado en Metacritic y horas de dedicacion.</p>
           </div>
-          <div class="card-surface p-8 hover:-translate-y-1 transition-all duration-300 hover:shadow-lg">
-            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5">
+          <div class="card-surface-dark p-8 hover:-translate-y-1 transition-all duration-300">
+            <div class="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center mb-5">
               <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-text-primary mb-2">Registra</h3>
-            <p class="text-text-muted text-sm leading-relaxed">Marca juegos como completados con notas, valoracion y fecha automatica.</p>
+            <h3 class="text-lg font-semibold text-white mb-2">Registra</h3>
+            <p class="text-white/60 text-sm leading-relaxed">Marca juegos como completados con notas, valoracion y fecha automatica.</p>
           </div>
-          <div class="card-surface p-8 hover:-translate-y-1 transition-all duration-300 hover:shadow-lg">
-            <div class="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center mb-5">
+          <div class="card-surface-dark p-8 hover:-translate-y-1 transition-all duration-300">
+            <div class="w-12 h-12 rounded-xl bg-warning/20 flex items-center justify-center mb-5">
               <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h0a2 2 0 012 2v0a2 2 0 012 2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2"></path>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-text-primary mb-2">Organiza</h3>
-            <p class="text-text-muted text-sm leading-relaxed">Filtra, ordena y clasifica tu biblioteca por categorias, etiquetas y estado.</p>
+            <h3 class="text-lg font-semibold text-white mb-2">Organiza</h3>
+            <p class="text-white/60 text-sm leading-relaxed">Filtra, ordena y clasifica tu biblioteca por categorias, etiquetas y estado.</p>
           </div>
         </div>
       </div>
@@ -204,3 +204,43 @@ if (sessionStore.isAuthenticated) {
     .finally(() => { pending.value = false })
 }
 </script>
+
+<style scoped>
+.logo-animated {
+  filter: drop-shadow(0 0 15px rgba(231,76,60,0.4));
+  animation: logoFloat 4s ease-in-out infinite, logoPulse 4s ease-in-out infinite, logoGlow 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes logoGlow {
+  0%, 100% { filter: drop-shadow(0 0 15px rgba(231,76,60,0.4)); }
+  50% { filter: drop-shadow(0 0 35px rgba(231,76,60,0.8)) drop-shadow(0 0 60px rgba(255,107,66,0.4)); }
+}
+
+.hero-section-dark {
+  background: linear-gradient(180deg, #1a0a0a 0%, #2d0f14 40%, #3B1F12 100%);
+}
+
+.card-surface-dark {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(231, 76, 60, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.card-surface-dark:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(231, 76, 60, 0.35);
+  box-shadow: 0 0 20px rgba(231, 76, 60, 0.15);
+}
+</style>

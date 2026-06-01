@@ -70,6 +70,16 @@
       <p class="text-xs text-danger">{{ actionError }}</p>
     </div>
   </div>
+
+  <AppConfirm
+    v-model="showUncompleteConfirm"
+    title="Desmarcar completado"
+    message="Seguro que quieres desmarcar este juego como completado?"
+    confirm-text="Desmarcar"
+    cancel-text="Cancelar"
+    :is-danger="false"
+    @confirm="confirmUncomplete"
+  />
 </template>
 
 <script setup>
@@ -85,26 +95,30 @@ const props = defineProps({
 const router = useRouter()
 const actionError = ref('')
 const isCompleting = ref(false)
+const showUncompleteConfirm = ref(false)
 
 const handleComplete = async () => {
   actionError.value = ''
   if (props.juego.completado) {
-    if (!confirm('Desmarcar como completado?')) return
-    try {
-      isCompleting.value = true
-      const { $api } = useNuxtApp()
-      await $api(`/juegos/${props.juego.id}/completado`, {
-        method: 'PATCH',
-        body: { notas: null, valoracion: null }
-      })
-      router.go(0)
-    } catch (e) {
-      actionError.value = 'Error al desmarcar como completado. Intenta de nuevo.'
-    } finally {
-      isCompleting.value = false
-    }
+    showUncompleteConfirm.value = true
   } else {
     router.push(`/juegos/${props.juego.id}?completar=true`)
+  }
+}
+
+const confirmUncomplete = async () => {
+  try {
+    isCompleting.value = true
+    const { $api } = useNuxtApp()
+    await $api(`/juegos/${props.juego.id}/completado`, {
+      method: 'PATCH',
+      body: { notas: null, valoracion: null }
+    })
+    router.go(0)
+  } catch (e) {
+    actionError.value = 'Error al desmarcar como completado. Intenta de nuevo.'
+  } finally {
+    isCompleting.value = false
   }
 }
 </script>

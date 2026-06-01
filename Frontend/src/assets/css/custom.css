@@ -12,20 +12,16 @@
 body {
   font-family: 'Inter', system-ui, sans-serif;
   background: linear-gradient(170deg,
-    #1a0808 0%,
-    #2d0f14 12%,
-    #5a1520 25%,
-    #8c2230 38%,
-    #c43a30 48%,
-    #e06030 58%,
-    #f08838 68%,
-    #f5a842 78%,
-    #f8c458 88%,
-    #fad080 95%,
-    #fce0a8 100%
+    #0d0404 0%,
+    #1a0808 12%,
+    #2d0f14 25%,
+    #3B1F12 45%,
+    #2d1510 65%,
+    #1a0a0a 85%,
+    #0d0404 100%
   );
   background-attachment: fixed;
-  color: #2D1810;
+  color: #FDF0E2;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -51,25 +47,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card-surface {
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(231, 76, 60, 0.15);
   border-radius: 12px;
   box-shadow: 0 0 6px rgba(231, 76, 60, 0.12), 0 0 15px rgba(231, 76, 60, 0.06);
+  backdrop-filter: blur(10px);
 }
 
 .card-surface:hover {
-  border-color: rgba(231, 76, 60, 0.3);
-  box-shadow: 0 0 10px rgba(231, 76, 60, 0.2), 0 0 25px rgba(231, 76, 60, 0.1);
+  border-color: rgba(231, 76, 60, 0.35);
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.25), 0 0 30px rgba(231, 76, 60, 0.1);
 }
 
 .card-neon {
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(231, 76, 60, 0.25);
   border-radius: 12px;
   box-shadow:
     0 0 10px rgba(231, 76, 60, 0.35),
     0 0 30px rgba(231, 76, 60, 0.15),
     0 0 60px rgba(231, 76, 60, 0.08);
+  backdrop-filter: blur(10px);
   transition: all 0.4s ease;
 }
 
@@ -100,15 +98,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-outline {
-  border: 1px solid rgba(139, 94, 60, 0.2);
-  color: #2D1810;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  color: #FDF0E2;
   background: transparent;
   transition: all 0.3s ease;
 }
 .btn-outline:hover {
   border-color: #E74C3C;
   color: #E74C3C;
-  background: rgba(231, 76, 60, 0.04);
+  background: rgba(231, 76, 60, 0.08);
 }
 
 .btn-danger {
@@ -131,10 +129,10 @@ h1, h2, h3, h4, h5, h6 {
 .form-floating select {
   width: 100%;
   padding: 1.2rem 1rem 0.6rem;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(139, 94, 60, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(231, 76, 60, 0.15);
   border-radius: 8px;
-  color: #2D1810;
+  color: #FDF0E2;
   font-size: 1rem;
   transition: all 0.3s ease;
   outline: none;
@@ -143,8 +141,8 @@ h1, h2, h3, h4, h5, h6 {
 .form-floating textarea:focus,
 .form-floating select:focus {
   border-color: #E74C3C;
-  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.08);
-  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+  background: rgba(255, 255, 255, 0.12);
 }
 .form-floating label {
   position: absolute;

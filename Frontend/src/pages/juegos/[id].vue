@@ -220,6 +220,15 @@
           </div>
         </div>
       </div>
+
+      <AppConfirm
+        v-model="showDeleteConfirm"
+        title="Eliminar juego"
+        message="Seguro que quieres eliminar este juego? Esta accion no se puede deshacer."
+        confirm-text="Eliminar"
+        cancel-text="Cancelar"
+        @confirm="confirmDelete"
+      />
     </div>
   </div>
 </template>
@@ -244,6 +253,7 @@ const actionError = ref('')
 const isSaving = ref(false)
 const isDeleting = ref(false)
 const isCompleting = ref(false)
+const showDeleteConfirm = ref(false)
 
 const { data: juegoResponse, pending: juegoPending, error: juegoError } = await useAsyncData(
   () => `juego-${route.params.id}`,
@@ -305,7 +315,10 @@ const handleComplete = async () => {
 
 const handleDelete = () => {
   actionError.value = ''
-  if (!confirm('Seguro que quieres eliminar este juego? Esta accion no se puede deshacer.')) return
+  showDeleteConfirm.value = true
+}
+
+const confirmDelete = () => {
   isDeleting.value = true
   $api(`/juegos/${route.params.id}`, {
     method: 'DELETE'

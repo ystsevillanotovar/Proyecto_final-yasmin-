@@ -87,15 +87,15 @@
 
     <button
       type="submit"
-      :disabled="isLoading"
+      :disabled="isLoading || props.isSubmitting"
       class="btn-primary w-full py-3 rounded-lg text-center font-medium"
     >
-      <span v-if="isLoading" class="flex items-center justify-center gap-2">
+      <span v-if="isLoading || props.isSubmitting" class="flex items-center justify-center gap-2">
         <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        Guardando...
+        {{ loadingText }}
       </span>
       <span v-else>{{ submitLabel || 'Guardar' }}</span>
     </button>
@@ -111,6 +111,7 @@ const props = defineProps({
   etiquetas: { type: Array, default: () => [] },
   submitLabel: { type: String, default: 'Guardar' },
   successMessage: { type: String, default: null },
+  isSubmitting: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['submit'])
@@ -155,7 +156,15 @@ const toggleEtiqueta = (id) => {
   }
 }
 
+const loadingText = computed(() => {
+  const label = props.submitLabel || 'Guardar'
+  if (label.toLowerCase() === 'guardar cambios') return 'Guardando cambios...'
+  if (label.toLowerCase() === 'crear juego') return 'Creando juego...'
+  return label.replace(/ar$/, 'ando').replace(/er$/, 'iendo') + '...'
+})
+
 const handleSubmit = async () => {
+  if (isLoading.value || props.isSubmitting) return
   errors.value = {}
   submitError.value = ''
   submitSuccess.value = false
