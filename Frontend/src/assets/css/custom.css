@@ -429,3 +429,50 @@ h1, h2, h3, h4, h5, h6 {
       rgba(255,255,255,0.03) 4px
     );
 }
+
+.scroll-hidden {
+  opacity: 0;
+  transition-property: opacity, transform, filter;
+  transition-duration: 0.8s;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.scroll-hidden[data-scroll-direction="up"] {
+  transform: translateY(50px);
+}
+
+.scroll-hidden[data-scroll-direction="down"] {
+  transform: translateY(-50px);
+}
+
+.scroll-hidden[data-scroll-direction="left"] {
+  transform: translateX(-60px);
+}
+
+.scroll-hidden[data-scroll-direction="right"] {
+  transform: translateX(60px);
+}
+
+.scroll-hidden[data-scroll-direction="scale"] {
+  transform: scale(0.85);
+}
+
+.scroll-hidden[data-scroll-direction="blur"] {
+  transform: translateY(30px);
+  filter: blur(10px);
+}
+
+.scroll-hidden[data-scroll-speed="slow"] {
+  transition-duration: 1.4s;
+}
+
+.scroll-hidden[data-scroll-speed="fast"] {
+  transition-duration: 0.4s;
+}
+
+.scroll-revealed {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+  filter: blur(0);
+}

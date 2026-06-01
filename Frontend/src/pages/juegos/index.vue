@@ -44,9 +44,10 @@
       <div v-else>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <JuegoCard
-            v-for="juego in juegos"
+            v-for="(juego, index) in juegos"
             :key="juego.id"
             :juego="juego"
+            v-scroll-reveal="{ direction: index % 2 === 0 ? 'left' : 'right', delay: (index % 6) * 100 }"
           />
         </div>
 
