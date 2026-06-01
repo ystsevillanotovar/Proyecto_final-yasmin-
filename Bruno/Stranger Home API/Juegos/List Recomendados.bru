@@ -1,0 +1,11 @@
+meta {
+  name: List Recomendados
+  type: http
+}
+
+get {
+  url: {{base_url}}/juegos/recomendados
+  header {
+    Authorization: Bearer {{token}}
+  }
+}

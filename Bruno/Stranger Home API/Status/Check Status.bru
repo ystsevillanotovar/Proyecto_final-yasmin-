@@ -1,0 +1,11 @@
+meta {
+  name: Check Status
+  type: http
+}
+
+get {
+  url: {{base_url}}/status
+  header {
+    Authorization: Bearer {{token}}
+  }
+}

@@ -1,0 +1,11 @@
+meta {
+  name: List Etiquetas
+  type: http
+}
+
+get {
+  url: {{base_url}}/etiquetas
+  header {
+    Authorization: Bearer {{token}}
+  }
+}

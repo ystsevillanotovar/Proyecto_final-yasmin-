@@ -1,0 +1,18 @@
+meta {
+  name: Update Juego
+  type: http
+}
+
+put {
+  url: {{base_url}}/juegos/{{juego_id}}
+  header {
+    Authorization: Bearer {{token}}
+    Content-Type: application/json
+  }
+  body {
+    json {
+      "nombre": "Elden Ring - DLC",
+      "puntuacion_metacritic": 98
+    }
+  }
+}

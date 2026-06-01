@@ -1,0 +1,21 @@
+meta {
+  name: Create Juego
+  type: http
+}
+
+post {
+  url: {{base_url}}/juegos
+  header {
+    Authorization: Bearer {{token}}
+    Content-Type: application/json
+  }
+  body {
+    json {
+      "nombre": "Elden Ring",
+      "categoria_id": "{{categoria_id}}",
+      "puntuacion_metacritic": 96,
+      "horas_dedicacion": 50,
+      "etiqueta_ids": ["{{etiqueta_id_1}}", "{{etiqueta_id_2}}"]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+meta {
+  name: Login
+  type: http
+}
+
+post {
+  url: {{base_url}}/auth/login
+  body {
+    json {
+      "email": "test@example.com",
+      "password": "12345678"
+    }
+  }
+}

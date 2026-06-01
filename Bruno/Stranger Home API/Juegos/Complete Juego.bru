@@ -1,0 +1,19 @@
+meta {
+  name: Complete Juego
+  type: http
+}
+
+patch {
+  url: {{base_url}}/juegos/{{juego_id}}/completado
+  header {
+    Authorization: Bearer {{token}}
+    Content-Type: application/json
+  }
+  body {
+    json {
+      "completado": true,
+      "notas": "Juego increible, altamente recomendado",
+      "valoracion": 5
+    }
+  }
+}

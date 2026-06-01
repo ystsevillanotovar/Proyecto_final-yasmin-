@@ -1,0 +1,11 @@
+meta {
+  name: Delete Juego
+  type: http
+}
+
+delete {
+  url: {{base_url}}/juegos/{{juego_id}}
+  header {
+    Authorization: Bearer {{token}}
+  }
+}

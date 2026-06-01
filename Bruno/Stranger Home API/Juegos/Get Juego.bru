@@ -1,0 +1,11 @@
+meta {
+  name: Get Juego
+  type: http
+}
+
+get {
+  url: {{base_url}}/juegos/{{juego_id}}
+  header {
+    Authorization: Bearer {{token}}
+  }
+}
