@@ -27,5 +27,12 @@ export default async function loginUser({ body }) {
     role: user.role,
   });
 
-  return { token };
+  return {
+    token,
+    user: {
+      id: user.id,
+      alias: user.alias,
+      email: user.email,
+    },
+  };
 }

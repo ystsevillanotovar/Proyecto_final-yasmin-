@@ -18,11 +18,15 @@
       </div>
 
       <div v-else>
+        <div v-if="createError" class="mb-6 p-4 bg-danger/10 border border-danger/20 rounded-lg">
+          <p class="text-sm text-danger">{{ createError }}</p>
+        </div>
         <JuegoForm
           :categorias="categorias"
           :etiquetas="etiquetas"
           submit-label="Crear juego"
           :success-message="successMessage"
+          :is-submitting="isCreating"
           @submit="handleCreate"
         />
       </div>
@@ -31,8 +35,6 @@
 </template>
 
 <script setup>
-import { z } from 'zod'
-
 definePageMeta({
   middleware: 'auth'
 })
@@ -47,20 +49,25 @@ const categorias = computed(() => categoriasResponse.value?.data || [])
 const etiquetas = computed(() => etiquetasResponse.value?.data || [])
 
 const successMessage = ref('')
+const createError = ref('')
+const isCreating = ref(false)
 
 const handleCreate = async (data) => {
+  createError.value = ''
+  isCreating.value = true
   try {
     await $api('/juegos', {
       method: 'POST',
       body: data
     })
-
     successMessage.value = 'Juego creado correctamente'
     setTimeout(() => {
       router.push('/juegos')
     }, 500)
   } catch (error) {
-    throw error
+    createError.value = error.data?.message || error.message || 'Error al crear el juego'
+  } finally {
+    isCreating.value = false
   }
 }
 

@@ -1,64 +1,97 @@
 <template>
   <div>
-    <section class="relative min-h-screen flex items-center overflow-hidden">
+    <section class="relative min-h-screen flex items-center overflow-hidden sunset-hero-bg sunset-texture">
       <div class="drop-art-collection slow-turning-reversed" style="bottom:-125px;left:-620px;filter:blur(10px)">
-        <div class="drop-art" style="border-color:rgba(139,92,246,0.75);left:0;bottom:20px;width:50px;height:50px;border-width:100px;opacity:0.15"></div>
+        <div class="drop-art" style="border-color:rgba(255,255,255,0.3);left:0;bottom:20px;width:50px;height:50px;border-width:100px;opacity:0.1"></div>
       </div>
       <div class="drop-art-collection slow-turning" style="top:50px;left:-420px;filter:blur(10px)">
-        <div class="drop-art" style="border-color:rgba(139,92,246,0.75);left:0;bottom:20px;width:50px;height:50px;border-width:100px;opacity:0.15"></div>
+        <div class="drop-art" style="border-color:rgba(255,200,87,0.3);left:0;bottom:20px;width:50px;height:50px;border-width:100px;opacity:0.1"></div>
+      </div>
+      <div class="drop-art-collection slow-turning-reversed" style="top:-100px;right:-300px;filter:blur(12px)">
+        <div class="drop-art" style="border-color:rgba(255,107,138,0.3);left:0;bottom:20px;width:60px;height:60px;border-width:80px;opacity:0.12"></div>
       </div>
 
-      <div class="absolute inset-0 hero-gradient"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/40"></div>
+
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="stranger-spark" style="top:15%;left:10%;animation-delay:0s"></div>
+        <div class="stranger-spark" style="top:20%;left:25%;animation-delay:1s"></div>
+        <div class="stranger-spark" style="top:10%;right:15%;animation-delay:2s"></div>
+        <div class="stranger-spark" style="top:25%;right:30%;animation-delay:0.5s"></div>
+        <div class="stranger-spark" style="top:35%;left:8%;animation-delay:1.5s"></div>
+        <div class="stranger-spark" style="top:30%;right:10%;animation-delay:2.5s"></div>
+        <div class="stranger-spark" style="top:40%;left:50%;animation-delay:3s"></div>
+        <div class="stranger-spark" style="top:18%;left:40%;animation-delay:1.8s"></div>
+        <div class="stranger-spark" style="top:45%;left:20%;animation-delay:0.8s"></div>
+        <div class="stranger-spark" style="top:12%;right:40%;animation-delay:2.2s"></div>
+      </div>
 
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div class="max-w-3xl">
-          <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 leading-tight animate-fade-up">
-            Tu gestor de<br><span class="text-gradient">videojuegos</span>
-          </h1>
-          <p class="text-lg md:text-xl text-text-muted mb-10 max-w-2xl leading-relaxed animate-fade-up" style="animation-delay:0.2s">
-            Prioriza que jugar, organiza tu biblioteca y registra tus completados. Todo en un solo lugar.
+        <div class="text-center max-w-4xl mx-auto">
+          <div class="animate-fade-up mb-8">
+            <img src="/logo.svg" alt="Stranger Home" class="w-20 h-20 mx-auto mb-6 rounded-2xl shadow-2xl" style="filter:drop-shadow(0 0 20px rgba(231,76,60,0.5))" />
+          </div>
+
+          <div class="relative inline-block animate-fade-up" style="animation-delay:0.15s">
+            <h1 class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-none mb-2">
+              <span class="stranger-title">STRANGER</span>
+            </h1>
+            <div class="stranger-divider w-48 sm:w-64 md:w-80 mx-auto my-3"></div>
+            <h1 class="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] leading-none">
+              <span class="stranger-title-gold">HOME</span>
+            </h1>
+          </div>
+
+          <p class="text-lg md:text-xl text-white/90 mt-8 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-up" style="animation-delay:0.3s;text-shadow:0 2px 10px rgba(0,0,0,0.4)">
+            Tu gestor de videojuegos. Prioriza que jugar, organiza tu biblioteca y registra tus completados.
           </p>
 
-          <div v-if="!sessionStore.isAuthenticated" class="flex flex-col sm:flex-row items-center gap-4 animate-fade-up" style="animation-delay:0.4s">
-            <NuxtLink to="/register" class="btn-primary px-8 py-3.5 rounded-lg text-lg font-medium inline-flex items-center gap-2">
+          <div v-if="!sessionStore.isAuthenticated" class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style="animation-delay:0.45s">
+            <NuxtLink to="/register" class="px-8 py-3.5 rounded-xl text-lg font-medium inline-flex items-center gap-2 bg-white text-primary hover:bg-white/90 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5 stranger-border">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
               </svg>
               Empezar ahora
             </NuxtLink>
-            <NuxtLink to="/login" class="btn-outline px-8 py-3.5 rounded-lg text-lg font-medium">
+            <NuxtLink to="/login" class="px-8 py-3.5 rounded-xl text-lg font-medium border-2 border-white/40 text-white hover:bg-white/10 transition-all backdrop-blur-sm">
               Ya tengo cuenta
             </NuxtLink>
           </div>
 
-          <div v-else class="flex flex-col sm:flex-row items-center gap-4 animate-fade-up" style="animation-delay:0.4s">
-            <NuxtLink to="/juegos" class="btn-primary px-8 py-3.5 rounded-lg text-lg font-medium inline-flex items-center gap-2">
+          <div v-else class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style="animation-delay:0.45s">
+            <NuxtLink to="/juegos" class="px-8 py-3.5 rounded-xl text-lg font-medium inline-flex items-center gap-2 bg-white text-primary hover:bg-white/90 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5 stranger-border">
               Ver mis juegos
             </NuxtLink>
-            <NuxtLink to="/juegos/crear" class="btn-outline px-8 py-3.5 rounded-lg text-lg font-medium">
+            <NuxtLink to="/juegos/crear" class="px-8 py-3.5 rounded-xl text-lg font-medium border-2 border-white/40 text-white hover:bg-white/10 transition-all backdrop-blur-sm">
               Agregar juego
             </NuxtLink>
           </div>
 
-          <div class="grid grid-cols-3 gap-8 mt-16 animate-fade-up" style="animation-delay:0.6s">
+          <div class="grid grid-cols-3 gap-8 mt-16 max-w-lg mx-auto animate-fade-up" style="animation-delay:0.6s">
             <div class="text-center">
-              <p class="text-3xl md:text-4xl font-bold text-primary mb-1">Metacritic</p>
-              <p class="text-text-dim text-sm">Puntuaciones reales</p>
+              <p class="text-2xl md:text-3xl font-bold text-white mb-1" style="text-shadow:0 0 10px rgba(255,255,255,0.3)">Metacritic</p>
+              <p class="text-white/60 text-xs">Puntuaciones</p>
             </div>
             <div class="text-center">
-              <p class="text-3xl md:text-4xl font-bold text-primary mb-1">/ Horas</p>
-              <p class="text-text-dim text-sm">Prioridad inteligente</p>
+              <p class="text-2xl md:text-3xl font-bold text-white mb-1" style="text-shadow:0 0 10px rgba(255,255,255,0.3)">/ Horas</p>
+              <p class="text-white/60 text-xs">Prioridad</p>
             </div>
             <div class="text-center">
-              <p class="text-3xl md:text-4xl font-bold text-accent mb-1">Completados</p>
-              <p class="text-text-dim text-sm">Registro detallado</p>
+              <p class="text-2xl md:text-3xl font-bold text-white mb-1" style="text-shadow:0 0 10px rgba(255,255,255,0.3)">Stars</p>
+              <p class="text-white/60 text-xs">Valoracion</p>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-soft">
+        <svg class="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </div>
     </section>
 
-    <section v-if="sessionStore.isAuthenticated" class="py-20 bg-dark relative">
+    <section v-if="showRecommended" class="py-20 bg-dark relative">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold text-text-primary mb-3">Recomendados para ti</h2>
@@ -76,14 +109,14 @@
         </div>
 
         <div v-else-if="!juegos || juegos.length === 0" class="text-center py-16">
-          <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-surface flex items-center justify-center">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-surface border border-border flex items-center justify-center">
             <svg class="w-10 h-10 text-text-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4v-3a2 2 0 00-2-2H5z"></path>
             </svg>
           </div>
           <p class="text-text-muted text-lg mb-2">Aun no tienes juegos</p>
           <p class="text-text-dim text-sm mb-8">Agrega tu primer juego para empezar</p>
-          <NuxtLink to="/juegos/crear" class="btn-primary px-8 py-3 rounded-lg font-medium inline-flex items-center gap-2">
+          <NuxtLink to="/juegos/crear" class="btn-primary px-8 py-3 rounded-xl font-medium inline-flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
@@ -113,7 +146,7 @@
     <section v-if="!sessionStore.isAuthenticated" class="py-20 bg-dark relative">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="card-surface p-8">
+          <div class="card-surface p-8 hover:-translate-y-1 transition-all duration-300 hover:shadow-lg">
             <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
               <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
@@ -122,7 +155,7 @@
             <h3 class="text-lg font-semibold text-text-primary mb-2">Prioriza</h3>
             <p class="text-text-muted text-sm leading-relaxed">Descubre que jugar a continuacion con nuestro algoritmo basado en Metacritic y horas de dedicacion.</p>
           </div>
-          <div class="card-surface p-8">
+          <div class="card-surface p-8 hover:-translate-y-1 transition-all duration-300 hover:shadow-lg">
             <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5">
               <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -131,7 +164,7 @@
             <h3 class="text-lg font-semibold text-text-primary mb-2">Registra</h3>
             <p class="text-text-muted text-sm leading-relaxed">Marca juegos como completados con notas, valoracion y fecha automatica.</p>
           </div>
-          <div class="card-surface p-8">
+          <div class="card-surface p-8 hover:-translate-y-1 transition-all duration-300 hover:shadow-lg">
             <div class="w-12 h-12 rounded-xl bg-warning/10 flex items-center justify-center mb-5">
               <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h0a2 2 0 012 2v0a2 2 0 012 2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2"></path>
@@ -149,13 +182,25 @@
 <script setup>
 const sessionStore = useSessionStore()
 
+const showRecommended = ref(false)
+const pending = ref(false)
+const error = ref(null)
+const juegos = ref([])
+const refresh = async () => {
+  error.value = null
+  try {
+    const { $api } = useNuxtApp()
+    const response = await $api('/juegos/recomendados')
+    juegos.value = response.data || []
+  } catch (e) {
+    error.value = e
+  }
+}
+
 if (sessionStore.isAuthenticated) {
-  const { $api } = useNuxtApp()
-  const { data: recommendedResponse, pending, error, refresh } = await useAsyncData(
-    'recommended-games',
-    () => $api('/juegos/recomendados'),
-    { server: true }
-  )
-  const juegos = computed(() => recommendedResponse.value?.data || [])
+  showRecommended.value = true
+  pending.value = true
+  refresh()
+    .finally(() => { pending.value = false })
 }
 </script>

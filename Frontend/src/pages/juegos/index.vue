@@ -31,7 +31,7 @@
       </div>
 
       <div v-else-if="!juegos || juegos.length === 0" class="text-center py-16">
-        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-surface flex items-center justify-center">
+        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-surface border border-border flex items-center justify-center">
           <svg class="w-10 h-10 text-text-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4v-3a2 2 0 00-2-2H5z"></path>
           </svg>
@@ -63,8 +63,6 @@
 </template>
 
 <script setup>
-import { z } from 'zod'
-
 definePageMeta({
   middleware: 'auth'
 })

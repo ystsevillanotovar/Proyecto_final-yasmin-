@@ -36,21 +36,21 @@
         <button
           @click="toggleCompletado"
           class="px-4 py-2.5 rounded-lg text-sm font-medium transition-all"
-          :class="completado === null ? 'btn-primary' : completado ? 'bg-accent/10 text-accent border border-accent/20' : 'bg-white/5 text-text-muted border border-border'"
+          :class="completado === null ? 'btn-primary' : completado ? 'bg-accent/10 text-accent border border-accent/20' : 'bg-gray-50 text-text-muted border border-border'"
         >
           Todos
         </button>
         <button
           @click="setCompletado(true)"
           class="px-4 py-2.5 rounded-lg text-sm font-medium transition-all"
-          :class="completado === true ? 'btn-primary' : 'bg-white/5 text-text-muted border border-border hover:border-primary hover:text-primary'"
+          :class="completado === true ? 'btn-primary' : 'bg-gray-50 text-text-muted border border-border hover:border-primary hover:text-primary'"
         >
           Completados
         </button>
         <button
           @click="setCompletado(false)"
           class="px-4 py-2.5 rounded-lg text-sm font-medium transition-all"
-          :class="completado === false ? 'btn-primary' : 'bg-white/5 text-text-muted border border-border hover:border-primary hover:text-primary'"
+          :class="completado === false ? 'btn-primary' : 'bg-gray-50 text-text-muted border border-border hover:border-primary hover:text-primary'"
         >
           En proceso
         </button>
@@ -61,7 +61,7 @@
       <button
         @click="setCategoria(null)"
         class="px-3 py-1.5 rounded-full text-xs font-medium transition-all"
-        :class="!categoriaId ? 'bg-primary text-white' : 'bg-white/5 text-text-muted border border-border hover:border-primary hover:text-primary'"
+        :class="!categoriaId ? 'bg-primary text-white' : 'bg-gray-50 text-text-muted border border-border hover:border-primary hover:text-primary'"
       >
         Todas
       </button>
@@ -70,7 +70,7 @@
         :key="cat.id"
         @click="setCategoria(cat.id)"
         class="px-3 py-1.5 rounded-full text-xs font-medium transition-all"
-        :class="categoriaId === cat.id ? 'bg-primary text-white' : 'bg-white/5 text-text-muted border border-border hover:border-primary hover:text-primary'"
+        :class="categoriaId === cat.id ? 'bg-primary text-white' : 'bg-gray-50 text-text-muted border border-border hover:border-primary hover:text-primary'"
       >
         {{ cat.nombre }}
       </button>
@@ -82,7 +82,7 @@
         :key="etq.id"
         @click="toggleEtiqueta(etq.id)"
         class="px-3 py-1 rounded-full text-xs font-medium transition-all"
-        :class="etiquetaIds.includes(etq.id) ? 'bg-primary/20 text-primary border border-primary/30' : 'bg-white/[0.02] text-text-dim border border-border hover:border-primary/30 hover:text-primary'"
+        :class="etiquetaIds.includes(etq.id) ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-gray-50 text-text-dim border border-border hover:border-primary/20 hover:text-primary'"
       >
         {{ etq.nombre }}
       </button>

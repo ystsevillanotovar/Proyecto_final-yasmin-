@@ -1,16 +1,12 @@
 <template>
   <nav
     class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-    :class="isScrolled ? 'bg-dark border-b border-border py-3' : 'bg-transparent py-5'"
+    :class="isScrolled ? 'bg-white/90 backdrop-blur-md border-b border-border py-3 shadow-sm' : 'bg-transparent py-5'"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between">
         <NuxtLink to="/" class="flex items-center gap-2 group">
-          <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4v-3a2 2 0 00-2-2H5z"></path>
-            </svg>
-          </div>
+          <img src="/logo.svg" alt="Stranger Home" class="w-8 h-8 rounded-lg" />
           <span class="text-lg font-bold text-text-primary">Stranger Home</span>
         </NuxtLink>
 
@@ -19,8 +15,8 @@
             v-for="item in navItems"
             :key="item.path"
             :to="item.path"
-            class="px-4 py-2 text-sm text-text-muted hover:text-primary transition-colors"
-            :class="{ 'text-primary': isActive(item.path) }"
+            class="px-4 py-2 text-sm text-text-muted hover:text-primary transition-colors rounded-lg"
+            :class="{ 'text-primary font-medium bg-primary/5': isActive(item.path) }"
           >
             {{ item.label }}
           </NuxtLink>
@@ -44,9 +40,9 @@
           <div v-else class="relative">
             <button
               @click="toggleUserMenu"
-              class="flex items-center gap-2 px-3 py-2 text-sm text-text-muted hover:text-primary transition-colors rounded-lg hover:bg-white/5"
+              class="flex items-center gap-2 px-3 py-2 text-sm text-text-muted hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
             >
-              <div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
+              <div class="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-xs font-bold">
                 {{ getUserInitials }}
               </div>
               <span class="hidden lg:inline">{{ sessionStore.user?.alias || 'User' }}</span>
@@ -78,7 +74,7 @@
                 </div>
                 <button
                   @click="handleLogout"
-                  class="flex items-center gap-3 w-full text-left px-4 py-3 text-sm text-text-muted hover:text-danger hover:bg-white/5 transition-colors"
+                  class="flex items-center gap-3 w-full text-left px-4 py-3 text-sm text-text-muted hover:text-danger hover:bg-danger/5 transition-colors"
                 >
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -123,11 +119,14 @@
   >
     <div
       v-show="mobileMenuOpen"
-      class="fixed inset-y-0 right-0 w-full max-w-xs bg-surface border-l border-border z-[60] overflow-y-auto"
+      class="fixed inset-y-0 right-0 w-full max-w-xs bg-surface border-l border-border z-[60] overflow-y-auto shadow-2xl"
     >
       <div class="p-6">
         <div class="flex items-center justify-between mb-8">
-          <span class="text-lg font-bold text-text-primary">Stranger Home</span>
+          <div class="flex items-center gap-2">
+            <img src="/logo.svg" alt="Stranger Home" class="w-7 h-7 rounded-lg" />
+            <span class="text-lg font-bold text-text-primary">Stranger Home</span>
+          </div>
           <button @click="closeMobileMenu" class="text-text-muted hover:text-primary transition-colors p-2">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -140,10 +139,11 @@
             v-for="item in navItems"
             :key="item.path"
             :to="item.path"
-            class="block px-4 py-3 text-base text-text-muted hover:text-primary hover:bg-white/5 rounded-lg transition-all"
-            :class="{ 'text-primary bg-white/5': isActive(item.path) }"
+            class="flex items-center gap-3 px-4 py-3 text-base text-text-muted hover:text-primary hover:bg-primary/5 rounded-xl transition-all"
+            :class="{ 'text-primary font-medium bg-primary/5': isActive(item.path) }"
             @click="closeMobileMenu"
           >
+            <component :is="getNavIcon(item.icon)" class="w-5 h-5" />
             {{ item.label }}
           </NuxtLink>
         </div>
@@ -151,14 +151,14 @@
         <div v-if="!sessionStore.isAuthenticated" class="border-t border-border mt-6 pt-6 space-y-3">
           <NuxtLink
             to="/login"
-            class="block px-4 py-3 text-text-muted hover:text-primary transition-colors"
+            class="block px-4 py-3 text-text-muted hover:text-primary transition-colors rounded-xl"
             @click="closeMobileMenu"
           >
             Login
           </NuxtLink>
           <NuxtLink
             to="/register"
-            class="btn-primary block text-center px-4 py-3 rounded-lg"
+            class="btn-primary block text-center px-4 py-3 rounded-xl"
             @click="closeMobileMenu"
           >
             Registrarse
@@ -166,13 +166,22 @@
         </div>
 
         <div v-else class="border-t border-border mt-6 pt-6 space-y-1">
-          <div class="px-4 py-3 text-text-muted text-sm">
-            {{ sessionStore.user?.alias || 'User' }}
+          <div class="flex items-center gap-3 px-4 py-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-bold">
+              {{ getUserInitials }}
+            </div>
+            <div>
+              <p class="text-sm font-medium text-text-primary">{{ sessionStore.user?.alias || 'User' }}</p>
+              <p class="text-xs text-text-dim">{{ sessionStore.user?.email }}</p>
+            </div>
           </div>
           <button
             @click="handleLogout"
-            class="block w-full text-left px-4 py-3 text-text-muted hover:text-danger hover:bg-white/5 rounded-lg transition-colors"
+            class="flex items-center gap-3 w-full text-left px-4 py-3 text-text-muted hover:text-danger hover:bg-danger/5 rounded-xl transition-colors"
           >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
             Cerrar sesion
           </button>
         </div>
@@ -191,9 +200,9 @@ const userMenuOpen = ref(false)
 const isScrolled = ref(false)
 
 const navItems = [
-  { path: '/', label: 'Inicio' },
-  { path: '/juegos', label: 'Juegos' },
-  { path: '/completados', label: 'Completados' },
+  { path: '/', label: 'Inicio', icon: 'home' },
+  { path: '/juegos', label: 'Juegos', icon: 'games' },
+  { path: '/completados', label: 'Completados', icon: 'completed' },
 ]
 
 const isActive = (path) => {
@@ -205,6 +214,33 @@ const getUserInitials = computed(() => {
   const name = sessionStore.user?.alias || sessionStore.user?.email || 'U'
   return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
 })
+
+const getNavIcon = (icon) => {
+  const icons = {
+    home: markRaw({
+      render() {
+        return h('svg', { fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+          h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-width': '2', d: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' })
+        ])
+      }
+    }),
+    games: markRaw({
+      render() {
+        return h('svg', { fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+          h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-width': '2', d: 'M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4v-3a2 2 0 00-2-2H5z' })
+        ])
+      }
+    }),
+    completed: markRaw({
+      render() {
+        return h('svg', { fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' }, [
+          h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-width': '2', d: 'M5 13l4 4L19 7' })
+        ])
+      }
+    }),
+  }
+  return icons[icon]
+}
 
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value

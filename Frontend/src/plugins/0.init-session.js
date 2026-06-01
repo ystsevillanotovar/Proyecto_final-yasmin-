@@ -20,12 +20,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   sessionStore.token = token
 
   try {
-    const response = await $fetch(`${config.public.apiBaseUrl}/status`, {
+    await $fetch(`${config.public.apiBaseUrl}/status`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
-    sessionStore.isAuthenticated = true
   } catch (error) {
     if (error.statusCode === 401 || error.response?.status === 401) {
       sessionStore.logout()

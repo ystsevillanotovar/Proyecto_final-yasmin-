@@ -1,33 +1,53 @@
 <template>
-  <div class="card-surface p-5 group transition-all duration-300 hover:border-primary/20 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5">
+  <div class="card-neon p-5 group transition-all duration-300 hover:-translate-y-1">
     <div class="flex items-start justify-between gap-3 mb-3">
-      <div>
+      <div class="flex-1">
         <div v-if="juego.categoria" class="mb-2">
           <span class="badge badge-primary">{{ juego.categoria.nombre }}</span>
         </div>
-        <h3 class="text-lg font-semibold text-text-primary group-hover:text-primary transition-colors">
+        <NuxtLink
+          :to="`/juegos/${juego.id}`"
+          class="text-lg font-semibold text-text-primary hover:text-primary transition-colors duration-300"
+        >
           {{ juego.nombre }}
-        </h3>
+        </NuxtLink>
       </div>
-      <PrioridadBadge :valor="juego.prioridad || 0" />
+      <div class="flex items-center gap-2">
+        <PrioridadBadge :valor="juego.prioridad || 0" />
+        <button
+          @click="handleComplete"
+          :disabled="isCompleting"
+          class="p-1.5 rounded-lg transition-all duration-300"
+          :class="isCompleting ? 'text-text-dim cursor-wait' : juego.completado ? 'text-accent hover:bg-accent/10' : 'text-text-muted hover:text-primary hover:bg-primary/5'"
+          :title="juego.completado ? 'Desmarcar completado' : 'Marcar completado'"
+        >
+          <svg v-if="isCompleting" class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="flex flex-wrap gap-2 mb-4">
-      <span v-for="etiqueta in juego.etiquetas" :key="etiqueta.id" class="badge" style="background:rgba(255,255,255,0.04);color:#888;border:1px solid rgba(255,255,255,0.06);font-size:0.65rem">
+      <span v-for="etiqueta in juego.etiquetas" :key="etiqueta.id" class="badge" style="background:rgba(139,94,60,0.06);color:#8B7355;border:1px solid rgba(139,94,60,0.1);font-size:0.65rem">
         {{ etiqueta.nombre }}
       </span>
     </div>
 
     <div class="grid grid-cols-3 gap-3 mb-4">
-      <div class="text-center p-2 rounded-lg bg-white/[0.02]">
+      <div class="text-center p-2 rounded-lg bg-primary/5">
         <p class="stat-value text-primary text-lg">{{ juego.puntuacion_metacritic }}</p>
         <p class="text-text-dim text-xs">Metacritic</p>
       </div>
-      <div class="text-center p-2 rounded-lg bg-white/[0.02]">
+      <div class="text-center p-2 rounded-lg bg-accent/5">
         <p class="stat-value text-text-primary text-lg">{{ juego.horas_dedicacion }}h</p>
         <p class="text-text-dim text-xs">Horas</p>
       </div>
-      <div class="text-center p-2 rounded-lg" :class="juego.completado ? 'bg-accent/10' : 'bg-white/[0.02]'">
+      <div class="text-center p-2 rounded-lg" :class="juego.completado ? 'bg-accent/10' : 'bg-gray-50'">
         <p class="stat-value text-lg" :class="juego.completado ? 'text-accent' : 'text-text-muted'">
           {{ juego.completado ? 'Si' : 'No' }}
         </p>
@@ -46,23 +66,8 @@
       <p v-if="juego.notas" class="text-xs text-text-muted mt-2">{{ juego.notas }}</p>
     </div>
 
-    <div class="flex items-center gap-2">
-      <NuxtLink
-        :to="`/juegos/${juego.id}`"
-        class="btn-outline flex-1 py-2 rounded-lg text-sm text-center"
-      >
-        Ver detalle
-      </NuxtLink>
-      <button
-        @click="handleComplete"
-        class="py-2 px-3 rounded-lg text-sm transition-colors"
-        :class="juego.completado ? 'text-accent hover:bg-accent/10' : 'text-text-muted hover:text-primary hover:bg-primary/10'"
-        :title="juego.completado ? 'Desmarcar completado' : 'Marcar completado'"
-      >
-        <svg class="w-5 h-5" :class="juego.completado ? 'text-accent' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </button>
+    <div v-if="actionError" class="mt-3 p-2 bg-danger/10 border border-danger/20 rounded-lg">
+      <p class="text-xs text-danger">{{ actionError }}</p>
     </div>
   </div>
 </template>
@@ -78,11 +83,15 @@ const props = defineProps({
 })
 
 const router = useRouter()
+const actionError = ref('')
+const isCompleting = ref(false)
 
 const handleComplete = async () => {
+  actionError.value = ''
   if (props.juego.completado) {
     if (!confirm('Desmarcar como completado?')) return
     try {
+      isCompleting.value = true
       const { $api } = useNuxtApp()
       await $api(`/juegos/${props.juego.id}/completado`, {
         method: 'PATCH',
@@ -90,7 +99,9 @@ const handleComplete = async () => {
       })
       router.go(0)
     } catch (e) {
-      console.error(e)
+      actionError.value = 'Error al desmarcar como completado. Intenta de nuevo.'
+    } finally {
+      isCompleting.value = false
     }
   } else {
     router.push(`/juegos/${props.juego.id}?completar=true`)

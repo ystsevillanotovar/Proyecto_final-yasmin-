@@ -40,7 +40,7 @@
               placeholder=" "
               :class="{ 'border-danger': errors.password }"
             >
-            <label for="reg-password">Contrasena (minimo 6 caracteres) *</label>
+            <label for="reg-password">Contrasena (minimo 8 caracteres) *</label>
             <p v-if="errors.password" class="mt-1 text-sm text-danger">{{ errors.password }}</p>
           </div>
 
@@ -92,7 +92,7 @@ if (sessionStore.isAuthenticated) {
 const registerSchema = z.object({
   alias: z.string().min(1, 'Alias requerido'),
   email: z.string().min(1, 'Email requerido').email('Email no valido'),
-  password: z.string().min(6, 'Minimo 6 caracteres'),
+  password: z.string().min(8, 'Minimo 8 caracteres'),
 })
 
 const form = ref({

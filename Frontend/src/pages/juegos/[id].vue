@@ -14,7 +14,7 @@
       </div>
 
       <div v-else-if="juegoError" class="text-center py-16">
-        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-surface flex items-center justify-center">
+        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-surface border border-border flex items-center justify-center">
           <span class="text-3xl font-bold text-text-dim">404</span>
         </div>
         <h2 class="text-xl font-bold text-text-primary mb-2">Juego no encontrado</h2>
@@ -39,13 +39,23 @@
           </div>
           <button
             @click="handleDelete"
-            class="p-2 rounded-lg text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            :disabled="isDeleting"
+            class="p-2 rounded-lg transition-colors"
+            :class="isDeleting ? 'text-text-dim cursor-wait' : 'text-text-muted hover:text-danger hover:bg-danger/10'"
             title="Eliminar juego"
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg v-if="isDeleting" class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
             </svg>
           </button>
+        </div>
+
+        <div v-if="actionError" class="mb-6 p-4 bg-danger/10 border border-danger/20 rounded-lg">
+          <p class="text-sm text-danger">{{ actionError }}</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -53,15 +63,15 @@
             <div class="card-surface p-6">
               <h3 class="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">Informacion</h3>
               <div class="grid grid-cols-3 gap-4">
-                <div class="text-center p-4 rounded-lg bg-white/[0.02]">
+                <div class="text-center p-4 rounded-lg bg-primary/5">
                   <p class="stat-value text-primary text-2xl">{{ juego.puntuacion_metacritic }}</p>
                   <p class="text-text-dim text-xs mt-1">Metacritic</p>
                 </div>
-                <div class="text-center p-4 rounded-lg bg-white/[0.02]">
+                <div class="text-center p-4 rounded-lg bg-accent/5">
                   <p class="stat-value text-text-primary text-2xl">{{ juego.horas_dedicacion }}h</p>
                   <p class="text-text-dim text-xs mt-1">Horas</p>
                 </div>
-                <div class="text-center p-4 rounded-lg" :class="juego.completado ? 'bg-accent/10' : 'bg-white/[0.02]'">
+                <div class="text-center p-4 rounded-lg" :class="juego.completado ? 'bg-accent/10' : 'bg-gray-50'">
                   <p class="stat-value text-2xl" :class="juego.completado ? 'text-accent' : 'text-text-muted'">
                     {{ juego.prioridad ? juego.prioridad.toFixed(2) : '0' }}
                   </p>
@@ -73,7 +83,7 @@
             <div v-if="juego.etiquetas && juego.etiquetas.length" class="card-surface p-6">
               <h3 class="text-sm font-semibold text-text-primary uppercase tracking-wider mb-3">Etiquetas</h3>
               <div class="flex flex-wrap gap-2">
-                <span v-for="etq in juego.etiquetas" :key="etq.id" class="badge" style="background:rgba(255,255,255,0.04);color:#888;border:1px solid rgba(255,255,255,0.06)">
+                <span v-for="etq in juego.etiquetas" :key="etq.id" class="badge" style="background:rgba(139,94,60,0.06);color:#8B7355;border:1px solid rgba(139,94,60,0.1)">
                   {{ etq.nombre }}
                 </span>
               </div>
@@ -124,7 +134,7 @@
                       type="button"
                       @click="completeForm.valoracion = i"
                       class="w-10 h-10 rounded-lg text-lg transition-all"
-                      :class="i <= completeForm.valoracion ? 'bg-warning text-dark' : 'bg-white/[0.03] text-text-dim hover:border-warning hover:text-warning border border-border'"
+                      :class="i <= completeForm.valoracion ? 'bg-warning text-white' : 'bg-gray-50 text-text-dim hover:border-warning hover:text-warning border border-border'"
                     >
                       &#9733;
                     </button>
@@ -135,8 +145,17 @@
                   <p class="text-sm text-danger">{{ completeError }}</p>
                 </div>
 
-                <button type="submit" class="btn-primary w-full py-3 rounded-lg text-center font-medium">
-                  Confirmar completado
+                <button
+                  type="submit"
+                  :disabled="isCompleting"
+                  class="btn-primary w-full py-3 rounded-lg text-center font-medium flex items-center justify-center gap-2"
+                >
+                  <svg v-if="isCompleting" class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span v-if="isCompleting">Confirmando...</span>
+                  <span v-else>Confirmar completado</span>
                 </button>
               </form>
             </div>
@@ -148,21 +167,29 @@
               <div class="space-y-2">
                 <button
                   @click="mode = mode === 'edit' ? 'view' : 'edit'"
+                  :disabled="isSaving || isDeleting || isCompleting"
                   class="w-full px-4 py-2.5 rounded-lg text-sm text-left transition-all"
-                  :class="mode === 'edit' ? 'bg-primary text-white' : 'bg-white/5 text-text-muted hover:text-primary hover:bg-white/[0.08]'"
+                  :class="[
+                    mode === 'edit' ? 'bg-primary text-white' : 'bg-gray-50 text-text-muted hover:text-primary hover:bg-primary/5',
+                    (isSaving || isDeleting || isCompleting) ? 'opacity-50 cursor-not-allowed' : ''
+                  ]"
                 >
                   <span class="inline-flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg v-if="isSaving" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                     </svg>
-                    {{ mode === 'edit' ? 'Cancelar edicion' : 'Editar juego' }}
+                    {{ mode === 'edit' ? 'Cancelando...' : 'Editar juego' }}
                   </span>
                 </button>
                 <button
                   @click="mode = 'completar'"
+                  :disabled="juego.completado || isSaving || isDeleting || isCompleting"
                   class="w-full px-4 py-2.5 rounded-lg text-sm text-left transition-all bg-accent/10 text-accent hover:bg-accent/20"
-                  :class="juego.completado ? 'opacity-50' : ''"
-                  :disabled="juego.completado"
+                  :class="(juego.completado || isSaving || isDeleting || isCompleting) ? 'opacity-50 cursor-not-allowed' : ''"
                 >
                   <span class="inline-flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,13 +200,19 @@
                 </button>
                 <button
                   @click="handleDelete"
+                  :disabled="isDeleting || isSaving || isCompleting"
                   class="w-full px-4 py-2.5 rounded-lg text-sm text-left transition-all bg-danger/10 text-danger hover:bg-danger/20"
+                  :class="(isDeleting || isSaving || isCompleting) ? 'opacity-50 cursor-not-allowed' : ''"
                 >
                   <span class="inline-flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg v-if="isDeleting" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                     </svg>
-                    Eliminar juego
+                    {{ isDeleting ? 'Eliminando...' : 'Eliminar juego' }}
                   </span>
                 </button>
               </div>
@@ -192,6 +225,8 @@
 </template>
 
 <script setup>
+import { formatDate } from '~/utils/prioridad'
+
 definePageMeta({
   middleware: 'auth',
   validate: (route) => {
@@ -205,6 +240,10 @@ const router = useRouter()
 const { $api } = useNuxtApp()
 
 const mode = ref(route.query.completar === 'true' ? 'completar' : 'view')
+const actionError = ref('')
+const isSaving = ref(false)
+const isDeleting = ref(false)
+const isCompleting = ref(false)
 
 const { data: juegoResponse, pending: juegoPending, error: juegoError } = await useAsyncData(
   () => `juego-${route.params.id}`,
@@ -232,6 +271,8 @@ if (juego.value && juego.value.completado) {
 }
 
 const handleUpdate = async (data) => {
+  actionError.value = ''
+  isSaving.value = true
   try {
     await $api(`/juegos/${route.params.id}`, {
       method: 'PUT',
@@ -239,12 +280,16 @@ const handleUpdate = async (data) => {
     })
     router.push('/juegos')
   } catch (error) {
-    throw error
+    actionError.value = error.data?.message || error.message || 'Error al actualizar el juego'
+  } finally {
+    isSaving.value = false
   }
 }
 
 const handleComplete = async () => {
   completeError.value = ''
+  actionError.value = ''
+  isCompleting.value = true
   try {
     await $api(`/juegos/${route.params.id}/completado`, {
       method: 'PATCH',
@@ -253,18 +298,23 @@ const handleComplete = async () => {
     router.push('/juegos')
   } catch (error) {
     completeError.value = error.data?.message || error.message || 'Error al marcar como completado'
+  } finally {
+    isCompleting.value = false
   }
 }
 
 const handleDelete = () => {
+  actionError.value = ''
   if (!confirm('Seguro que quieres eliminar este juego? Esta accion no se puede deshacer.')) return
-
+  isDeleting.value = true
   $api(`/juegos/${route.params.id}`, {
     method: 'DELETE'
   }).then(() => {
     router.push('/juegos')
   }).catch((error) => {
-    console.error(error)
+    actionError.value = 'Error al eliminar el juego. Intenta de nuevo.'
+  }).finally(() => {
+    isDeleting.value = false
   })
 }
 
