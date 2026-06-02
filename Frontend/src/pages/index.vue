@@ -140,15 +140,17 @@
             </NuxtLink>
           </div>
 
-          <div v-else class="carousel-wrapper" v-scroll-reveal="'up'">
-            <div class="carousel-track" ref="carouselTrack">
-              <div class="carousel-slide">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <JuegoCard
-                    v-for="juego in juegos"
-                    :key="juego.id"
-                    :juego="juego"
-                  />
+          <div v-else class="carousel-container" v-scroll-reveal="'up'">
+            <div class="carousel-wrapper">
+              <div class="carousel-track" ref="carouselTrack">
+                <div class="carousel-slide">
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <JuegoCard
+                      v-for="juego in juegos"
+                      :key="juego.id"
+                      :juego="juego"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -430,8 +432,11 @@ if (sessionStore.isAuthenticated) {
   box-shadow: 0 0 20px rgba(231, 76, 60, 0.15);
 }
 
-.carousel-wrapper {
+.carousel-container {
   position: relative;
+}
+
+.carousel-wrapper {
   overflow: hidden;
 }
 
@@ -478,11 +483,11 @@ if (sessionStore.isAuthenticated) {
 }
 
 .carousel-btn-left {
-  left: -0.25rem;
+  left: -1.25rem;
 }
 
 .carousel-btn-right {
-  right: -0.25rem;
+  right: -1.25rem;
 }
 
 .carousel-dots {

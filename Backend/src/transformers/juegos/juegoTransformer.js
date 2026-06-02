@@ -9,6 +9,7 @@ export default function juegoTransformer(juego) {
   return {
     id: juego.id,
     nombre: juego.nombre,
+    categoria_id: juego.categoria_id,
     categoria: juego.categoria ? {
       id: juego.categoria.id,
       nombre: juego.categoria.nombre,

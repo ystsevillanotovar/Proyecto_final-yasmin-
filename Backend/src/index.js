@@ -39,11 +39,6 @@ app.use(express.json());
 app.use(extractBearerToken);
 
 // Routes
-app.get('/status', auth({ required: false }), statusCheck);
-app.post('/auth/register', authRegister);
-app.post('/auth/login', authLogin);
-
-// Juegos
 app.get('/juegos', auth({ required: true }), juegosList);
 app.get('/juegos/recomendados', auth({ required: true }), juegosRecomendados);
 app.get('/juegos/:id', auth({ required: true }), juegosGet);

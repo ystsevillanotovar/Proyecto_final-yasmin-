@@ -9,6 +9,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Klein Headline';
+  src: url('~/assets/fonts/KleinHeadline-BoldOblique.ttf') format('truetype');
+  font-weight: bold;
+  font-style: oblique;
+  font-display: swap;
+}
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
   background: linear-gradient(170deg,
@@ -519,6 +527,57 @@ h1, h2, h3, h4, h5, h6 {
 .arcade-card > * {
   position: relative;
   z-index: 2;
+}
+
+.arcade-card.card-alta {
+  background: rgba(80, 10, 10, 0.85);
+  border-color: rgba(231, 76, 60, 0.45);
+  box-shadow:
+    0 0 8px rgba(231, 76, 60, 0.3),
+    0 0 20px rgba(231, 76, 60, 0.12),
+    inset 0 0 30px rgba(231, 76, 60, 0.08);
+}
+
+.arcade-card.card-alta:hover {
+  border-color: rgba(231, 76, 60, 0.7);
+  box-shadow:
+    0 0 15px rgba(231, 76, 60, 0.5),
+    0 0 40px rgba(231, 76, 60, 0.25),
+    0 0 80px rgba(231, 76, 60, 0.1);
+}
+
+.arcade-card.card-media {
+  background: rgba(80, 40, 5, 0.85);
+  border-color: rgba(255, 140, 0, 0.45);
+  box-shadow:
+    0 0 8px rgba(255, 140, 0, 0.3),
+    0 0 20px rgba(255, 140, 0, 0.12),
+    inset 0 0 30px rgba(255, 140, 0, 0.08);
+}
+
+.arcade-card.card-media:hover {
+  border-color: rgba(255, 140, 0, 0.7);
+  box-shadow:
+    0 0 15px rgba(255, 140, 0, 0.5),
+    0 0 40px rgba(255, 140, 0, 0.25),
+    0 0 80px rgba(255, 140, 0, 0.1);
+}
+
+.arcade-card.card-baja {
+  background: rgba(70, 55, 5, 0.85);
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow:
+    0 0 8px rgba(255, 215, 0, 0.25),
+    0 0 20px rgba(255, 215, 0, 0.1),
+    inset 0 0 30px rgba(255, 215, 0, 0.06);
+}
+
+.arcade-card.card-baja:hover {
+  border-color: rgba(255, 215, 0, 0.65);
+  box-shadow:
+    0 0 15px rgba(255, 215, 0, 0.45),
+    0 0 40px rgba(255, 215, 0, 0.2),
+    0 0 80px rgba(255, 215, 0, 0.08);
 }
 
 .arcade-stat {

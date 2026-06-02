@@ -1,17 +1,13 @@
 <template>
-  <div class="arcade-card p-5 group" :class="{ 'ripple-complete': justCompleted }">
+  <div
+    class="arcade-card group p-5"
+    :class="[prioridadLevel.class.replace('upside-down-badge ', 'card-'), { 'ripple-complete': justCompleted }]"
+  >
     <div class="flex items-start justify-between gap-3 mb-3">
       <div class="flex-1">
         <div v-if="juego.categoria" class="mb-2">
           <span class="upside-down-badge" :class="categoriaColorClass">{{ juego.categoria.nombre }}</span>
         </div>
-        <NuxtLink
-          :to="`/juegos/${juego.id}`"
-          class="ghost-text text-lg font-semibold hover:text-primary transition-all duration-300 block"
-          style="font-size:1.05rem"
-        >
-          {{ juego.nombre }}
-        </NuxtLink>
       </div>
       <div class="flex items-center gap-2 shrink-0">
         <PrioridadBadge :valor="juego.prioridad || 0" />
@@ -33,18 +29,27 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap gap-2 mb-4">
+    <div class="flex-1 flex items-center justify-center mb-3">
+      <NuxtLink
+        :to="`/juegos/${juego.id}`"
+        class="juego-title text-center hover:text-primary transition-all duration-300 block"
+      >
+        {{ juego.nombre }}
+      </NuxtLink>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-4 justify-center">
       <span
         v-for="etiqueta in juego.etiquetas"
         :key="etiqueta.id"
         class="inline-flex items-center px-2 py-0.5 rounded text-xs"
-        style="background:rgba(139,94,60,0.08);color:#8B7355;border:1px solid rgba(139,94,60,0.15);font-size:0.65rem"
+        style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.1);font-size:0.65rem"
       >
         {{ etiqueta.nombre }}
       </span>
     </div>
 
-    <div class="grid grid-cols-3 gap-3 mb-4">
+    <div class="grid grid-cols-3 gap-3">
       <div class="arcade-stat">
         <p class="stat-value text-primary text-lg">{{ juego.puntuacion_metacritic }}</p>
         <p class="text-text-dim text-xs">Meta</p>
@@ -89,7 +94,7 @@
 </template>
 
 <script setup>
-import { formatDate } from '~/utils/prioridad'
+import { formatDate, getPrioridadLevel } from '~/utils/prioridad'
 
 const props = defineProps({
   juego: {
@@ -103,6 +108,8 @@ const actionError = ref('')
 const isCompleting = ref(false)
 const showUncompleteConfirm = ref(false)
 const justCompleted = ref(false)
+
+const prioridadLevel = computed(() => getPrioridadLevel(props.juego.prioridad || 0))
 
 const categoriaColorClass = computed(() => {
   const cat = props.juego.categoria?.nombre?.toLowerCase() || ''
@@ -136,3 +143,26 @@ const confirmUncomplete = async () => {
   }
 }
 </script>
+
+<style scoped>
+.juego-title {
+  font-family: 'Klein Headline', 'Karma Future', 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: bold;
+  font-style: oblique;
+  letter-spacing: 0.05em;
+  color: #FDF0E2;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(231, 76, 60, 0.15);
+  line-height: 1.3;
+}
+
+.juego-title:hover {
+  text-shadow:
+    0 0 15px rgba(139, 92, 246, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(139, 92, 246, 0.2);
+}
+</style>
