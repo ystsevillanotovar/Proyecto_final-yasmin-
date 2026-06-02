@@ -24,7 +24,7 @@
         </div>
 
         <div>
-          <h3 class="footer-highlight-title text-xs font-bold uppercase tracking-widest mb-4">Que es esto?</h3>
+          <h3 class="footer-highlight-title text-xs font-bold uppercase tracking-widest mb-4">Conocenos</h3>
           <ul class="space-y-2">
             <li>
               <NuxtLink to="/que-es-esto" class="footer-highlight-link text-sm inline-flex items-center gap-2">

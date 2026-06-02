@@ -8,7 +8,7 @@
     "start": "node index.js",
     "build": "prisma generate && prisma migrate deploy",
     "postinstall": "prisma generate",
-    "dev": "portless",
+    "dev": "nodemon -r dotenv/config index.js",
     "dev:app": "nodemon -r dotenv/config index.js",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",

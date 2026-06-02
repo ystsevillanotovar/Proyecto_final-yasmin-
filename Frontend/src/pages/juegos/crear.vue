@@ -26,8 +26,7 @@
           :etiquetas="etiquetas"
           submit-label="Crear juego"
           :success-message="successMessage"
-          :is-submitting="isCreating"
-          @submit="handleCreate"
+          :on-submit="handleCreate"
         />
       </div>
     </div>
@@ -53,7 +52,7 @@ const createError = ref('')
 const isCreating = ref(false)
 
 const handleCreate = async (data) => {
-  createError.value = ''
+  if (isCreating.value) return
   isCreating.value = true
   try {
     await $api('/juegos', {

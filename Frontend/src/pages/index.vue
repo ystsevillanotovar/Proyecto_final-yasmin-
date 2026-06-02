@@ -140,13 +140,49 @@
             </NuxtLink>
           </div>
 
-          <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <JuegoCard
-              v-for="(juego, index) in juegos.slice(0, 6)"
-              :key="juego.id"
-              :juego="juego"
-              v-scroll-reveal="{ direction: 'up', delay: index * 120 }"
-            />
+          <div v-else class="carousel-wrapper" v-scroll-reveal="'up'">
+            <div class="carousel-track" ref="carouselTrack">
+              <div class="carousel-slide">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <JuegoCard
+                    v-for="juego in juegos"
+                    :key="juego.id"
+                    :juego="juego"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              v-if="juegos.length > 3"
+              @click="carouselPrev"
+              class="carousel-btn carousel-btn-left"
+              :class="{ 'is-disabled': currentSlide === 0 }"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <button
+              v-if="juegos.length > 3"
+              @click="carouselNext"
+              class="carousel-btn carousel-btn-right"
+              :class="{ 'is-disabled': currentSlide >= maxSlide }"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+
+            <div v-if="juegos.length > 3" class="carousel-dots">
+              <button
+                v-for="i in totalSlides"
+                :key="i"
+                @click="goToSlide(i - 1)"
+                class="carousel-dot"
+                :class="{ active: currentSlide === i - 1 }"
+              ></button>
+            </div>
           </div>
 
           <div v-if="juegos && juegos.length > 6" class="text-center mt-10">
@@ -219,6 +255,41 @@ const showRecommended = ref(false)
 const pending = ref(false)
 const error = ref(null)
 const juegos = ref([])
+const currentSlide = ref(0)
+const carouselTrack = ref(null)
+
+const itemsPerSlide = computed(() => {
+  if (process.client) {
+    if (window.innerWidth >= 1024) return 3
+    if (window.innerWidth >= 768) return 2
+  }
+  return 1
+})
+
+const totalSlides = computed(() => Math.ceil(juegos.value.length / itemsPerSlide.value))
+const maxSlide = computed(() => totalSlides.value - 1)
+
+const carouselPrev = () => {
+  if (currentSlide.value > 0) currentSlide.value--
+}
+
+const carouselNext = () => {
+  if (currentSlide.value < maxSlide.value) currentSlide.value++
+}
+
+const goToSlide = (index) => {
+  currentSlide.value = index
+}
+
+const updateSlide = () => {
+  if (!carouselTrack.value) return
+  const percentage = currentSlide.value * itemsPerSlide.value
+  carouselTrack.value.style.transform = `translateX(-${percentage * (100 / juegos.value.length)}%)`
+}
+
+watch(currentSlide, updateSlide)
+watch(juegos, () => { currentSlide.value = 0 }, { deep: true })
+
 const refresh = async () => {
   error.value = null
   try {
@@ -357,5 +428,88 @@ if (sessionStore.isAuthenticated) {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(231, 76, 60, 0.35);
   box-shadow: 0 0 20px rgba(231, 76, 60, 0.15);
+}
+
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(231, 76, 60, 0.8);
+  color: white;
+  border: 1px solid rgba(255, 107, 66, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.carousel-btn:hover {
+  background: rgba(231, 76, 60, 1);
+  box-shadow: 0 0 25px rgba(231, 76, 60, 0.5);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.is-disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.carousel-btn-left {
+  left: -0.25rem;
+}
+
+.carousel-btn-right {
+  right: -0.25rem;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.carousel-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.carousel-dot.active {
+  background: #E74C3C;
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.6);
+  transform: scale(1.3);
+}
+
+.carousel-dot:hover:not(.active) {
+  background: rgba(255, 107, 66, 0.5);
 }
 </style>

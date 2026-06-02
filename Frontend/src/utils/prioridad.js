@@ -4,9 +4,9 @@ export const calcPrioridad = (puntuacionMetacritic, horasDedicacion) => {
 }
 
 export const getPrioridadLevel = (prioridad) => {
-  if (prioridad >= 2) return { label: 'ALTA', class: 'badge-success' }
-  if (prioridad >= 1) return { label: 'MEDIA', class: 'badge-warning' }
-  return { label: 'BAJA', class: 'badge-danger' }
+  if (prioridad >= 2) return { label: 'ALTA', class: 'upside-down-badge alta' }
+  if (prioridad >= 1) return { label: 'MEDIA', class: 'upside-down-badge media' }
+  return { label: 'BAJA', class: 'upside-down-badge baja' }
 }
 
 export const formatDate = (dateString) => {

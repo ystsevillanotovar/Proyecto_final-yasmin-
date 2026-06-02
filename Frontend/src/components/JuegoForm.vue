@@ -17,7 +17,7 @@
         <select
           id="form-categoria"
           v-model="form.categoria_id"
-          class="cursor-pointer"
+          class="cursor-pointer select-styled"
           :class="{ 'border-danger': errors.categoria_id }"
         >
           <option value="">Selecciona categoria</option>
@@ -87,10 +87,10 @@
 
     <button
       type="submit"
-      :disabled="isLoading || props.isSubmitting"
+      :disabled="isLoading"
       class="btn-primary w-full py-3 rounded-lg text-center font-medium"
     >
-      <span v-if="isLoading || props.isSubmitting" class="flex items-center justify-center gap-2">
+      <span v-if="isLoading" class="flex items-center justify-center gap-2">
         <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -111,10 +111,8 @@ const props = defineProps({
   etiquetas: { type: Array, default: () => [] },
   submitLabel: { type: String, default: 'Guardar' },
   successMessage: { type: String, default: null },
-  isSubmitting: { type: Boolean, default: false },
+  onSubmit: { type: Function, default: null },
 })
-
-const emit = defineEmits(['submit'])
 
 const juegoSchema = z.object({
   nombre: z.string().min(1, 'Nombre requerido'),
@@ -164,7 +162,7 @@ const loadingText = computed(() => {
 })
 
 const handleSubmit = async () => {
-  if (isLoading.value || props.isSubmitting) return
+  if (isLoading.value) return
   errors.value = {}
   submitError.value = ''
   submitSuccess.value = false
@@ -181,19 +179,29 @@ const handleSubmit = async () => {
       return
     }
 
-    emit('submit', {
-      nombre: form.value.nombre,
-      categoria_id: form.value.categoria_id,
-      puntuacion_metacritic: Number(form.value.puntuacion_metacritic),
-      horas_dedicacion: Number(form.value.horas_dedicacion),
-      etiqueta_ids: form.value.etiqueta_ids,
-    })
+    if (props.onSubmit) {
+      await props.onSubmit({
+        nombre: form.value.nombre,
+        categoria_id: form.value.categoria_id,
+        puntuacion_metacritic: Number(form.value.puntuacion_metacritic),
+        horas_dedicacion: Number(form.value.horas_dedicacion),
+        etiqueta_ids: form.value.etiqueta_ids,
+      })
+    }
 
     submitSuccess.value = true
-    isLoading.value = false
   } catch (error) {
-    submitError.value = error.data?.message || error.message || 'Error inesperado'
+    submitError.value = error?.data?.message || error?.message || 'Error inesperado'
+  } finally {
     isLoading.value = false
   }
 }
 </script>
+
+<style scoped>
+.select-styled option {
+  background: #2d0f14;
+  color: #FDF0E2;
+  padding: 8px;
+}
+</style>

@@ -4,7 +4,7 @@ import juegoRepository from '../../repositories/juegoRepository.js';
 import categoriaRepository from '../../repositories/categoriaRepository.js';
 import etiquetaRepository from '../../repositories/etiquetaRepository.js';
 import NotFoundError from '../../errors/NotFoundError.js';
-
+import ConflictError from '../../errors/ConflictError.js';
 export default async function createJuego({ body, usuario_id }) {
   const data = validate(createJuegoSchema, body);
 
@@ -15,6 +15,11 @@ export default async function createJuego({ body, usuario_id }) {
     if (etiquetas.length !== data.etiqueta_ids.length) {
       throw new NotFoundError('One or more etiquetas not found');
     }
+  }
+
+  const exists = await juegoRepository.findByNombreAndUsuario(data.nombre, usuario_id);
+  if (exists) {
+    throw new ConflictError('Ya tienes un juego con ese nombre');
   }
 
   return await juegoRepository.create({ ...data, usuario_id });

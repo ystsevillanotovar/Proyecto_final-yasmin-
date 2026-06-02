@@ -6,7 +6,7 @@
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16">
-          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4" style="text-shadow:0 0 20px rgba(231,76,60,0.5)">Que es Stranger Home?</h1>
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4" style="text-shadow:0 0 20px rgba(231,76,60,0.5)">Conocenos</h1>
           <div class="stranger-divider w-48 mx-auto mb-6"></div>
           <p class="text-white/60 text-lg max-w-2xl mx-auto">Tu companero de aventuras. La herramienta que te ayuda a decidir tu siguiente juego y registrar cada mundo que has explorado.</p>
         </div>
@@ -108,7 +108,7 @@
 
 <script setup>
 useHead({
-  title: 'Que es esto? - Stranger Home'
+  title: 'Conocenos - Stranger Home'
 })
 </script>
 

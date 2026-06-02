@@ -3,6 +3,12 @@ import { ulid } from 'ulid';
 import NotFoundError from '../errors/NotFoundError.js';
 
 export default {
+  async findByNombreAndUsuario(nombre, usuario_id) {
+    return prisma.juego.findFirst({
+      where: { nombre, usuario_id, deleted_at: null },
+    });
+  },
+
   async create(data) {
     return prisma.juego.create({
       data: {

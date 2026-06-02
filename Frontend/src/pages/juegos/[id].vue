@@ -108,7 +108,7 @@
                 :categorias="categorias"
                 :etiquetas="etiquetas"
                 submit-label="Guardar cambios"
-                @submit="handleUpdate"
+                :on-submit="handleUpdate"
               />
             </div>
 
