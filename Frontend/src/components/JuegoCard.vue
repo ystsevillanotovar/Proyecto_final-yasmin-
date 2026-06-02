@@ -51,7 +51,7 @@
 
     <div class="grid grid-cols-3 gap-3">
       <div class="arcade-stat">
-        <p class="stat-value text-primary text-lg">{{ juego.puntuacion_metacritic }}</p>
+        <p class="stat-value text-lg" :class="puntuacionLevel.class">{{ juego.puntuacion_metacritic }}</p>
         <p class="text-text-dim text-xs">Meta</p>
       </div>
       <div class="arcade-stat">
@@ -94,7 +94,7 @@
 </template>
 
 <script setup>
-import { formatDate, getPrioridadLevel } from '~/utils/prioridad'
+import { formatDate, getPrioridadLevel, getPuntuacionLevel } from '~/utils/prioridad'
 
 const props = defineProps({
   juego: {
@@ -110,6 +110,7 @@ const showUncompleteConfirm = ref(false)
 const justCompleted = ref(false)
 
 const prioridadLevel = computed(() => getPrioridadLevel(props.juego.prioridad || 0))
+const puntuacionLevel = computed(() => getPuntuacionLevel(props.juego.puntuacion_metacritic || 0))
 
 const categoriaColorClass = computed(() => {
   const cat = props.juego.categoria?.nombre?.toLowerCase() || ''

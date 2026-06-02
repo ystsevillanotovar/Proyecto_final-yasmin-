@@ -64,7 +64,7 @@
               <h3 class="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">Informacion</h3>
               <div class="grid grid-cols-3 gap-4">
                 <div class="text-center p-4 rounded-lg bg-primary/5">
-                  <p class="stat-value text-primary text-2xl">{{ juego.puntuacion_metacritic }}</p>
+                  <p class="stat-value text-2xl" :class="puntuacionLevel.class">{{ juego.puntuacion_metacritic }}</p>
                   <p class="text-text-dim text-xs mt-1">Metacritic</p>
                 </div>
                 <div class="text-center p-4 rounded-lg bg-accent/5">
@@ -234,7 +234,7 @@
 </template>
 
 <script setup>
-import { formatDate } from '~/utils/prioridad'
+import { formatDate, getPuntuacionLevel } from '~/utils/prioridad'
 
 definePageMeta({
   middleware: 'auth',
@@ -262,6 +262,7 @@ const { data: juegoResponse, pending: juegoPending, error: juegoError } = await 
 )
 
 const juego = computed(() => juegoResponse.value?.data || null)
+const puntuacionLevel = computed(() => getPuntuacionLevel(juego.value?.puntuacion_metacritic || 0))
 
 const { data: categoriasResponse } = await useAsyncData('categorias-detail', () => $api('/categorias'), { server: true })
 const { data: etiquetasResponse } = await useAsyncData('etiquetas-detail', () => $api('/etiquetas'), { server: true })

@@ -3,6 +3,12 @@ export const calcPrioridad = (puntuacionMetacritic, horasDedicacion) => {
   return Math.round((puntuacionMetacritic / horasDedicacion) * 100) / 100
 }
 
+export const getPuntuacionLevel = (puntuacion) => {
+  if (puntuacion >= 60) return { label: 'ALTA', class: 'upside-down-badge alta' }
+  if (puntuacion >= 40) return { label: 'MEDIA', class: 'upside-down-badge media' }
+  return { label: 'BAJA', class: 'upside-down-badge baja' }
+}
+
 export const getPrioridadLevel = (prioridad) => {
   if (prioridad >= 2) return { label: 'ALTA', class: 'upside-down-badge alta' }
   if (prioridad >= 1) return { label: 'MEDIA', class: 'upside-down-badge media' }
