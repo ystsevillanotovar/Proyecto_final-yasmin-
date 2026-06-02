@@ -38,7 +38,14 @@ app.use(cors({
 app.use(express.json());
 app.use(extractBearerToken);
 
-// Routes
+// Auth routes (public)
+app.post('/auth/register', authRegister);
+app.post('/auth/login', authLogin);
+
+// Status (authenticated)
+app.get('/status', auth({ required: true }), statusCheck);
+
+// Juegos
 app.get('/juegos', auth({ required: true }), juegosList);
 app.get('/juegos/recomendados', auth({ required: true }), juegosRecomendados);
 app.get('/juegos/:id', auth({ required: true }), juegosGet);
